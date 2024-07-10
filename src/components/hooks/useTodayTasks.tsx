@@ -16,7 +16,7 @@ const useTodayTasks = (): Task[] => {
     .padStart(2, "0")}`;
 
   useEffect(() => {
-    let filteredTasks: Task[] = tasks.filter(
+    const filteredTasks: Task[] = tasks.filter(
       (task: Task) => task.date === dateTimeFormat
     );
     setTodaysTasks(filteredTasks);

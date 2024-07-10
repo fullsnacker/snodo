@@ -6,4 +6,5 @@ export interface Task {
   completed: boolean;
   important: boolean;
   id: string;
+  time: number;
 }

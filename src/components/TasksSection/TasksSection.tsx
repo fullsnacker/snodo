@@ -14,8 +14,8 @@ const TasksSection: React.FC = () => {
     <main className=" pt-5 pb-8 sm:pb-16 px-3 md:px-8 md:w-full xl:w-8/12 m-auto min-h-screen">
       <HeaderTasks />
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/today" element={<TodaysTasks />} />
+        <Route path="/all" element={<Home />} />
         <Route path="/important" element={<ImportantTasks />} />
         <Route
           path="/completed"
@@ -28,7 +28,7 @@ const TasksSection: React.FC = () => {
         <Route path="/results" element={<SearchResults />} />
         <Route path="/dir/:dir" element={<Directory />} />
         <Route path="/task/:taskId" element={<TaskOnly />} />
-        <Route path="*" element={<Navigate to="" />} />
+        <Route path="*" element={<Navigate to="/today" />} />
       </Routes>
     </main>
   );

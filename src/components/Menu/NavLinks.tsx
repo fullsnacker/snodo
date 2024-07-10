@@ -8,7 +8,7 @@ const links = [
   },
   {
     name: "All tasks",
-    path: "/",
+    path: "/all",
   },
   {
     name: "Important tasks",

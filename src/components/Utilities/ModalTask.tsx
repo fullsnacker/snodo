@@ -60,6 +60,14 @@ const ModalCreateTask: React.FC<{
     }
     return "";
   });
+
+  const [time, setTime] = useState<number>(() => {
+    if (task) {
+      return task.time;
+    }
+    return 0;
+  });
+
   const [date, setDate] = useState<string>(() => {
     if (task) {
       return task.date;
@@ -105,6 +113,7 @@ const ModalCreateTask: React.FC<{
         completed: isCompleted,
         important: isImportant,
         id: task?.id ? task.id : Date.now().toString(),
+        time: time,
       };
       onConfirm(newTask);
       onClose();
@@ -147,6 +156,17 @@ const ModalCreateTask: React.FC<{
             value={description}
             onChange={({ target }) => setDescription(target.value)}
           ></textarea>
+        </label>
+        <label>
+          Time (Minutes)
+          <input
+            type="number"
+            placeholder="e.g, 30"
+            required
+            value={time}
+            onChange={({ target }) => setTime(target.valueAsNumber)}
+            className="w-full"
+          />
         </label>
         <label>
           Select a directory
