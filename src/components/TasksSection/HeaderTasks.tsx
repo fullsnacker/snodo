@@ -1,7 +1,6 @@
 import React from "react";
-import BtnAddTask from "../Utilities/BtnAddTask";
 import MenuIcon from "../../assets/menu.svg?react";
-import avatar1 from "../../assets/avatar-1.jpg";
+import avatar1 from "../../assets/avatar-fs.png";
 import SearchField from "./SearchField";
 import { useAppDispatch } from "../../store/hooks";
 import { menusActions } from "../../store/Menu.store";
@@ -65,13 +64,13 @@ const HeaderTasks: React.FC = () => {
         <Notification />
         {/* <BtnAddTask className="sm:static fixed bottom-3 right-3 z-10 sm:z-0 min-w-max shadow-lg shadow-slate-400  dark:shadow-slate-900 sm:shadow-transparent" /> */}
 
-        {/* <button onClick={openMenuAccountHandler} className="block xl:hidden">
+        <button onClick={openMenuAccountHandler} className="block xl:hidden">
           <img
             src={avatar1}
             alt="cat"
             className="w-10 h-10 rounded-full ml-4"
           />
-        </button> */}
+        </button>
       </div>
     </header>
   );

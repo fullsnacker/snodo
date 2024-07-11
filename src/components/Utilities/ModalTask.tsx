@@ -65,7 +65,7 @@ const ModalCreateTask: React.FC<{
     if (task) {
       return task.time;
     }
-    return 0;
+    return 30;
   });
 
   const [date, setDate] = useState<string>(() => {

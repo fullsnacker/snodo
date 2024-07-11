@@ -1,13 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import useCompletedTasks from "../hooks/useCompletedTasks";
 import useTodayTasks from "../hooks/useTodayTasks";
 import ConfettiExplosion from "react-confetti-explosion";
+import { Task } from "../../interfaces";
 
 const TasksDone: React.FC = () => {
-  const todaysTasks = useTodayTasks();
-  const tasks = useAppSelector((state) => state.tasks.tasks);
+  const route = useLocation();
+  const directory = route.pathname.split("/")[2];
+
+  let todaysTasks = useTodayTasks();
+  let tasks = useAppSelector((state) => state.tasks.tasks);
+
+  if (directory) {
+    tasks = tasks.filter((task: Task) => task.dir === directory);
+    todaysTasks = todaysTasks.filter((task: Task) => task.dir === directory);
+  }
   const { tasks: todayTasksDone } = useCompletedTasks({
     tasks: todaysTasks,
     done: true,
@@ -17,12 +26,9 @@ const TasksDone: React.FC = () => {
     done: true,
   });
 
-  const route = useLocation();
-  const currentPath = route.pathname.split("/")[2];
-
   const [isExploding, setIsExploding] = React.useState(false);
 
-  const [realPercentage, setRealPercentage] = useState(0);
+  const [dayDoneTotal, setDayDoneTotal] = useState(0);
 
   const [dayTotal, setDayTotal] = useState(0);
 
@@ -31,70 +37,69 @@ const TasksDone: React.FC = () => {
 
   const percentageAllTasks = (allTasksDone.length * 100) / tasks.length;
 
-  const todaysTasksToShow = todaysTasks.slice(0, 3);
-
-  const showMore = todaysTasks.length > todaysTasksToShow.length;
+  // const todaysTasksToShow = todaysTasks.slice(0, 3);
+  // const showMore = todaysTasks.length > todaysTasksToShow.length;
 
   let todayDoneTime = 0;
   let totalDayTime = 0;
 
   useEffect(() => {
-    console.log(currentPath);
     if (percentageTodayTasks === 100) {
       setIsExploding(true);
     } else {
       setIsExploding(false);
     }
-    // setRealPercentage(0);
     todayTasksDone.map((task) => (todayDoneTime += task.time));
     todaysTasks.map((task) => (totalDayTime += task.time));
-    setRealPercentage(todayDoneTime);
+    setDayDoneTotal(todayDoneTime);
     setDayTotal(totalDayTime);
   }, [percentageTodayTasks]);
 
   useEffect(() => {
-    console.log("TEST");
-  }, []);
+    console.log(directory);
+  }, [directory]);
 
   return (
     <>
-      {/* {isExploding && percentageAllTasks === 100 && (
-        <ConfettiExplosion particleSize={20} />
-      )} */}
       {isExploding && <ConfettiExplosion />}
-      {todaysTasks.length !== 0 && (
-        <div className="mt-8">
-          <span className="flex justify-between mb-2">
-            <span>Tasks today</span> {todayTasksDone.length}/
-            {todaysTasks.length}
-          </span>
-          <div className="barProgress">
-            <div style={{ width: percentageTodayTasks + "%" }}></div>
-          </div>
-          <hr className="mt-5" />
-          <span className="flex justify-between mt-2 mb-2">
-            <span>Real</span> {realPercentage} / {dayTotal}
-          </span>
-
-          <div className="barProgress">
-            <div
-              style={{ width: (realPercentage * 100) / dayTotal + "%" }}
-            ></div>
-          </div>
-          <span className="flex justify-between mt-2 mb-2">
-            <span>Left</span> {dayTotal - realPercentage}
-          </span>
-          <hr />
-        </div>
-      )}
       {tasks.length !== 0 && (
         <div className="mt-6">
+          <div className="mb-2">
+            {directory ? <strong>{directory}'s Directory </strong> : ""}
+          </div>
           <span className="flex justify-between mb-2">
-            <span>All tasks </span> {allTasksDone.length}/{tasks.length}
+            <span>
+              <strong>All tasks </strong>
+            </span>
+            {allTasksDone.length}/{tasks.length}
           </span>
           <div className="barProgress">
             <div style={{ width: percentageAllTasks + "%" }}></div>
           </div>
+        </div>
+      )}
+      {todaysTasks.length !== 0 && (
+        <div className="mt-3">
+          <span className="flex justify-between mt-2 mb-2">
+            <span>
+              <strong>Today Tasks</strong>
+            </span>
+          </span>
+          <span className="flex justify-between mb-2">
+            <span>Tasks</span> {todayTasksDone.length}/{todaysTasks.length}
+          </span>
+          <div className="barProgress">
+            <div style={{ width: percentageTodayTasks + "%" }}></div>
+          </div>
+          <span className="flex justify-between mt-2 mb-2">
+            <span>Real Time</span> {dayDoneTotal} / {dayTotal}
+          </span>
+          <div className="barProgress">
+            <div style={{ width: (dayDoneTotal * 100) / dayTotal + "%" }}></div>
+          </div>
+          <span className="flex justify-between mt-2 mb-5">
+            <span>Time Left</span> {dayTotal - dayDoneTotal}
+          </span>
         </div>
       )}
 
@@ -104,7 +109,7 @@ const TasksDone: React.FC = () => {
         </span>
       )}
 
-      {todaysTasks.length > 0 && (
+      {/* {todaysTasks.length > 0 && (
         <div className="mt-8">
           <span className="mb-2 block">Today's tasks</span>
           <ul>
@@ -120,7 +125,7 @@ const TasksDone: React.FC = () => {
             </Link>
           )}
         </div>
-      )}
+      )} */}
     </>
   );
 };
