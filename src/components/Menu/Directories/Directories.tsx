@@ -3,7 +3,7 @@ import Arrow from "../../../assets/arrow.svg?react";
 import ContentDirectories from "./ContentDirectories";
 
 const Directories: React.FC<{ classActive: string }> = ({ classActive }) => {
-  const [isDirectoriesOpen, setIsDirectoriesOpen] = useState<boolean>(true);
+  const [isDirectoriesOpen, setIsDirectoriesOpen] = useState<boolean>(false);
 
   const toggleDirectoriesOpen = () => {
     setIsDirectoriesOpen((prevState) => !prevState);
@@ -22,7 +22,7 @@ const Directories: React.FC<{ classActive: string }> = ({ classActive }) => {
             isDirectoriesOpen ? "rotate-180" : ""
           }`}
         />
-        Directories
+        Folders
       </button>
       <div className={isDirectoriesOpen ? "visible" : "hidden"}>
         <ContentDirectories classActive={classActive} />

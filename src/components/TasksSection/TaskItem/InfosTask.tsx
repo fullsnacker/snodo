@@ -21,6 +21,13 @@ const InfosTask: React.FC<{ task: Task; isListInView1: boolean }> = ({
         </span>
       </div>
       <p
+        className={`description mb-2 text-slate-500 dark:text-slate-500 ${
+          isListInView1 ? "line-clamp-2 sm:line-clamp-1" : "line-clamp-3"
+        }`}
+      >
+        {task.time} min.
+      </p>
+      <p
         title={task.description}
         className={`description mb-2 text-slate-500 dark:text-slate-500 ${
           isListInView1 ? "line-clamp-2 sm:line-clamp-1" : "line-clamp-3"
@@ -28,6 +35,7 @@ const InfosTask: React.FC<{ task: Task; isListInView1: boolean }> = ({
       >
         {task.description}
       </p>
+
       <time className="mt-auto flex w-full">
         <Calendar className="mr-2 w-4 sm:w-5" /> {dateFormated}
       </time>

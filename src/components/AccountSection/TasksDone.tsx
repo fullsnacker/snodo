@@ -10,13 +10,9 @@ const TasksDone: React.FC = () => {
   const route = useLocation();
   const directory = route.pathname.split("/")[2];
 
-  let todaysTasks = useTodayTasks();
-  let tasks = useAppSelector((state) => state.tasks.tasks);
+  const todaysTasks = useTodayTasks();
+  const tasks = useAppSelector((state) => state.tasks.tasks);
 
-  if (directory) {
-    tasks = tasks.filter((task: Task) => task.dir === directory);
-    todaysTasks = todaysTasks.filter((task: Task) => task.dir === directory);
-  }
   const { tasks: todayTasksDone } = useCompletedTasks({
     tasks: todaysTasks,
     done: true,
@@ -32,9 +28,6 @@ const TasksDone: React.FC = () => {
 
   const [dayTotal, setDayTotal] = useState(0);
 
-  const percentageTodayTasks =
-    (todayTasksDone.length * 100) / todaysTasks.length;
-
   const percentageAllTasks = (allTasksDone.length * 100) / tasks.length;
 
   // const todaysTasksToShow = todaysTasks.slice(0, 3);
@@ -43,21 +36,43 @@ const TasksDone: React.FC = () => {
   let todayDoneTime = 0;
   let totalDayTime = 0;
 
+  let taskCount = 0;
+
+  let percentageTodayTasks = 0;
+
+  if (directory) {
+    taskCount = todaysTasks.filter(
+      (task: Task) => task.dir === directory
+    ).length;
+    percentageTodayTasks =
+      (todayTasksDone.filter((task: Task) => task.dir === directory).length *
+        100) /
+      todaysTasks.filter((task: Task) => task.dir === directory).length;
+  } else {
+    taskCount = todaysTasks.length;
+    percentageTodayTasks = (todayTasksDone.length * 100) / todaysTasks.length;
+  }
+
   useEffect(() => {
     if (percentageTodayTasks === 100) {
       setIsExploding(true);
     } else {
       setIsExploding(false);
     }
-    todayTasksDone.map((task) => (todayDoneTime += task.time));
-    todaysTasks.map((task) => (totalDayTime += task.time));
+    if (directory) {
+      todayTasksDone
+        .filter((task: Task) => task.dir === directory)
+        .map((task) => (todayDoneTime += task.time));
+      todaysTasks
+        .filter((task: Task) => task.dir === directory)
+        .map((task) => (totalDayTime += task.time));
+    } else {
+      todayTasksDone.map((task) => (todayDoneTime += task.time));
+      todaysTasks.map((task) => (totalDayTime += task.time));
+    }
     setDayDoneTotal(todayDoneTime);
     setDayTotal(totalDayTime);
-  }, [percentageTodayTasks]);
-
-  useEffect(() => {
-    console.log(directory);
-  }, [directory]);
+  }, [percentageTodayTasks, directory]);
 
   return (
     <>
@@ -78,7 +93,7 @@ const TasksDone: React.FC = () => {
           </div>
         </div>
       )}
-      {todaysTasks.length !== 0 && (
+      {taskCount !== 0 && (
         <div className="mt-3">
           <span className="flex justify-between mt-2 mb-2">
             <span>
@@ -86,7 +101,8 @@ const TasksDone: React.FC = () => {
             </span>
           </span>
           <span className="flex justify-between mb-2">
-            <span>Tasks</span> {todayTasksDone.length}/{todaysTasks.length}
+            <span>Tasks</span> {(percentageTodayTasks / 100) * taskCount}/
+            {taskCount}
           </span>
           <div className="barProgress">
             <div style={{ width: percentageTodayTasks + "%" }}></div>
