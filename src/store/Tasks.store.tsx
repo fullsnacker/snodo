@@ -7,7 +7,9 @@ import {
 } from "@reduxjs/toolkit";
 import { Task } from "../interfaces";
 
-const defaultTasks: Task[] = [
+const defaultTasks: Task[] = [];
+
+const defaultTasks2: Task[] = [
   {
     title: "54. Transformar objeto a un arreglo - Detalles estéticos 10 min",
     important: false,
