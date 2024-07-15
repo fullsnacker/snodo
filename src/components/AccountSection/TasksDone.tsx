@@ -33,6 +33,8 @@ const TasksDone: React.FC = () => {
   // const todaysTasksToShow = todaysTasks.slice(0, 3);
   // const showMore = todaysTasks.length > todaysTasksToShow.length;
 
+  const [timeToEnd, setTimeToEnd] = useState(0);
+
   let todayDoneTime = 0;
   let totalDayTime = 0;
 
@@ -73,6 +75,23 @@ const TasksDone: React.FC = () => {
     setDayDoneTotal(todayDoneTime);
     setDayTotal(totalDayTime);
   }, [percentageTodayTasks, directory]);
+
+  useEffect(() => {
+    // console.log(directory);
+    const newDate = new Date();
+    if (newDate.getHours() >= 18) {
+      setTimeToEnd(0);
+    } else {
+      setTimeToEnd(
+        (18 - 1 - newDate.getHours()) * 60 + (60 - newDate.getMinutes())
+      );
+    }
+  }, [directory]);
+
+  useEffect(() => {
+    //FOR BACKUP DB
+    //console.log(localStorage.getItem("tasks")!);
+  }, []);
 
   return (
     <>
@@ -115,6 +134,9 @@ const TasksDone: React.FC = () => {
           </div>
           <span className="flex justify-between mt-2 mb-5">
             <span>Time Left</span> {dayTotal - dayDoneTotal}
+          </span>
+          <span className="flex justify-between mt-2 mb-5">
+            <span>Time To End</span> {timeToEnd}
           </span>
         </div>
       )}
