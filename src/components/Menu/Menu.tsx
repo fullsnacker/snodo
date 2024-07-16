@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { menusActions } from "../../store/Menu.store";
-import BtnAddTask from "../Utilities/BtnAddTask";
+// import BtnAddTask from "../Utilities/BtnAddTask";
 import Directories from "./Directories/Directories";
 import NavLinks from "./NavLinks";
 import LayoutMenus from "../Utilities/LayoutMenus";
@@ -24,7 +24,7 @@ const Menu: React.FC = () => {
     >
       <header className="h-full flex flex-col">
         <h1 className="font-bold uppercase text-center mt-8 text-lg tracking-wide hidden xl:block">
-          Snodo
+          Snodo - v1.1.0
         </h1>
         {/* <BtnAddTask className="my-8 mx-4" /> */}
         <NavLinks classActive={classLinkActive} />
