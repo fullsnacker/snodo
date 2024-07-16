@@ -129,7 +129,7 @@ const ModalCreateTask: React.FC<{
           Title
           <input
             type="text"
-            placeholder="e.g, study for the test"
+            placeholder="e.g, Deploy App"
             required
             value={title}
             onChange={({ target }) => setTitle(target.value)}
@@ -151,7 +151,7 @@ const ModalCreateTask: React.FC<{
         <label>
           Description (optional)
           <textarea
-            placeholder="e.g, study for the test"
+            placeholder="e.g, Server info, ip address..."
             className="w-full"
             value={description}
             onChange={({ target }) => setDescription(target.value)}

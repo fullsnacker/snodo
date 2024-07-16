@@ -81,10 +81,16 @@ const TasksDone: React.FC = () => {
     const newDate = new Date();
     if (newDate.getHours() >= 18) {
       setTimeToEnd(0);
-    } else {
+    } else if (newDate.getHours() >= 14) {
       setTimeToEnd(
         (18 - 1 - newDate.getHours()) * 60 + (60 - newDate.getMinutes())
       );
+    } else if (newDate.getHours() <= 13) {
+      setTimeToEnd(
+        (18 - 2 - newDate.getHours()) * 60 + (60 - newDate.getMinutes())
+      );
+    } else {
+      setTimeToEnd(240);
     }
   }, [directory]);
 
@@ -133,11 +139,29 @@ const TasksDone: React.FC = () => {
             <div style={{ width: (dayDoneTotal * 100) / dayTotal + "%" }}></div>
           </div>
           <span className="flex justify-between mt-2 mb-5">
-            <span>Time Left</span> {dayTotal - dayDoneTotal}
+            <span>Required Time</span>
+            {Math.round(((dayTotal - dayDoneTotal) * 100) / 60) / 100} Hs. |{" "}
+            {dayTotal - dayDoneTotal} Min.
           </span>
           <span className="flex justify-between mt-2 mb-5">
-            <span>Time To End</span> {timeToEnd}
+            <span>End Of Day In</span>
+            {Math.round((timeToEnd * 100) / 60) / 100} Hs. | {timeToEnd} Min.
           </span>
+          <div className="flex items-center justify-center">
+            {dayTotal - dayDoneTotal > timeToEnd ? (
+              <span className="text-red-600 font-bold text-lg self-center">
+                Can't Reach
+              </span>
+            ) : dayTotal - dayDoneTotal === 0 ? (
+              <span className="text-green-300 font-bold text-lg self-center">
+                Complete!
+              </span>
+            ) : (
+              <span className="text-green-600 font-bold text-lg self-center">
+                On Schedule
+              </span>
+            )}
+          </div>
         </div>
       )}
 

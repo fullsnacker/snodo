@@ -41,6 +41,7 @@ const ModalDirectory: React.FC<{
             Title
           </label>
           <input
+            autoFocus
             type="text"
             id="dir-name"
             placeholder="Enter a directory name"

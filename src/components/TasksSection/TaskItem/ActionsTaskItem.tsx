@@ -4,6 +4,7 @@ import BtnEditTask from "./BtnEditTask";
 import BtnMarkAsImportant from "./BtnMarkAsImportant";
 import BtnDeleteTask from "./BtnDeleteTask";
 import BtnToggleCompleted from "./BtnToggleCompleted";
+import BtnPostponeTask from "./BtnPostponeTask";
 
 const ActionsTaskItem: React.FC<{ task: Task; isListInView1: boolean }> = ({
   task,
@@ -23,6 +24,7 @@ const ActionsTaskItem: React.FC<{ task: Task; isListInView1: boolean }> = ({
         />
         <BtnMarkAsImportant taskId={task.id} taskImportant={task.important} />
         <BtnDeleteTask taskId={task.id} />
+        <BtnPostponeTask taskId={task.id} />
         <BtnEditTask task={task} />
       </div>
     </>

@@ -37,7 +37,7 @@ const ContentDirectories: React.FC<{ classActive: string }> = ({
           onClose={closeModalDirectoryHandler}
           onConfirm={createNewDirectoryHandler}
           btnText="Create"
-          title="Create new directory"
+          title="Create new folder"
         />
       )}
 

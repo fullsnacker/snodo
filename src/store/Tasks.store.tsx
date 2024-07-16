@@ -320,6 +320,21 @@ const tasksSlice = createSlice({
       );
       state.tasks = newTasksList;
     },
+    postponeTask(state, action) {
+      const newTaskPostponed = state.tasks.find(
+        (task) => task.id === action.payload
+      );
+
+      if (newTaskPostponed) {
+        console.log(newTaskPostponed.date);
+        newTaskPostponed.date = newTaskPostponed.date
+          .toString()
+          .split("-")
+          .map((v, i) => (i === 2 ? +v + 1 : v))
+          .join("-");
+        console.log(newTaskPostponed.date);
+      }
+    },
     markAsImportant(state, action: PayloadAction<string>) {
       const newTaskFavorited = state.tasks.find(
         (task) => task.id === action.payload
