@@ -96,7 +96,7 @@ const TasksDone: React.FC = () => {
 
   useEffect(() => {
     //FOR BACKUP DB
-    console.log(localStorage.getItem("tasks")!);
+    // console.log(localStorage.getItem("tasks")!);
   }, []);
 
   return (
